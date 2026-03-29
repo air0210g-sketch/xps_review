@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "skill-hub": {
+      "source": "kevinaimonster/skill-hub",
+      "sourceType": "github",
+      "computedHash": "55dc7396267203da8601511a646ba0f7ddc1c9de9b22a129dc2d0985544ebbe7"
+    }
+  }
+}
