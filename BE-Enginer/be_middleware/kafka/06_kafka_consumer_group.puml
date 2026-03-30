@@ -1,0 +1,42 @@
+@startuml
+!theme mars
+title Consumer Group Scaling & Ordering
+
+package "Topic: Order-Events (4 Partitions)" {
+    rectangle "Partition 0" as P0
+    rectangle "Partition 1" as P1
+    rectangle "Partition 2" as P2
+    rectangle "Partition 3" as P3
+}
+
+package "Consumer Group A (Ideal)" {
+    component "Consumer A1" as C1
+    component "Consumer A2" as C2
+    component "Consumer A3" as C3
+    component "Consumer A4" as C4
+}
+
+package "Consumer Group B (Over-provisioned)" {
+    component "Consumer B1" as CB1
+    component "Consumer B2" as CB2
+    component "Consumer B3" as CB3
+    component "Consumer B4" as CB4
+    component "Consumer B5 (Idle)" as CB5 #gray
+}
+
+P0 --> C1 : Exclusive
+P1 --> C2 : Exclusive
+P2 --> C3 : Exclusive
+P3 --> C4 : Exclusive
+
+P0 ..> CB1
+P1 ..> CB2
+P2 ..> CB3
+P3 ..> CB4
+note bottom of CB5: No partition left!\nMax parallelism = Partition Count
+
+note top of P0
+Ordered
+end note
+
+@enduml
