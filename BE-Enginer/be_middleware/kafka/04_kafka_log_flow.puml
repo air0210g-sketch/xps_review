@@ -1,0 +1,32 @@
+@startuml
+!theme mars
+skinparam componentStyle rectangle
+
+title Kafka Log Read/Write Process
+
+package "Write Path (Producer)" {
+    [Producer] -> [Network] : Send Message
+    [Network] -> [Broker] : Receive
+    [Broker] -> [PageCache] : Append to Active Segment (.log)
+    [Broker] -> [Memory Map] : Update Index (.index/.timeindex)
+    [PageCache] ..> [Disk] : Async Flush (OS Dirty write)
+    note right of [PageCache]
+    Only Sequential Append
+    No random I/O
+    end note
+}
+
+package "Read Path (Consumer)" {
+    [Consumer] -> [Network] : Fetch Request (Offset)
+    [Network] -> [Broker] : Receive Request
+    [Broker] -> [Memory Map] : Binary Search Index
+    note right of [Memory Map]
+    1. Locate Segment
+    2. Find Position
+    end note
+    [Memory Map] -> [PageCache] : Read from Position
+    [PageCache] -> [Network] : Zero-Copy (sendfile)
+    [Network] -> [Consumer] : Send Data
+}
+
+@enduml
