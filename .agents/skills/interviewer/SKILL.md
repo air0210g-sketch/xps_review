@@ -208,7 +208,9 @@ user-invocable: true
 - 微服务拆分原则
 - 数据库事务与隔离级别
 - 并发编程、线程安全、锁机制
+- 实际的面经总结： .agents/skills/interviewer/resource/ccc.docx
 - 参考其中语言之外的部分 http://47.112.114.53:18080/shanguigu/
+
 
 ### 算法
 
